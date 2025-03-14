@@ -10,11 +10,12 @@ chrome.runtime.sendMessage({ action: 'getTabId' }, (tabId) => {
 function createPopup(seconds) {
     const popup = document.createElement('div');
     popup.id = 'auto-close-popup';
+    popup.className = 'atc-popup';
     popup.innerHTML = `
-        <div class="countdown">Tab will close in <span id="timer">${seconds}</span>s</div>
-        <div class="controls">
-            <button id="closeNow">Close Now</button>
-            <button id="cancelClose">Cancel</button>
+        <div class="atc-countdown">Tab will close in <span id="timer">${seconds}</span>s</div>
+        <div class="atc-controls">
+            <button id="closeNow" class="atc-close-now">Close Now</button>
+            <button id="cancelClose" class="atc-cancel">Cancel</button>
         </div>
     `;
     document.body.appendChild(popup);
