@@ -2,33 +2,26 @@
     "manifest_version": 3,
     "name": "Auto Tab Close",
     "version": "1.0",
-    "description": "Automatically close specific tabs after configured time",
+    "description": "Automatically closes inactive tabs after a specified time",
     "permissions": [
-        "storage",
         "tabs",
-        "scripting",
-        "webNavigation"
+        "storage",
+        "alarms"
     ],
-    "host_permissions": [
-        "<all_urls>"
-    ],
-    "action": {
-        "default_popup": "popup.html"
-    },
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "src/background.js"
     },
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "js": [
-                "content.js"
-            ],
-            "css": [
-                "content.css"
-            ]
+    "action": {
+        "default_popup": "src/popup.html",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
         }
-    ]
+    },
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    }
 }
