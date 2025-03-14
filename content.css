@@ -1,0 +1,60 @@
+.auto-close-timer {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 0 0 5px 5px;
+    z-index: 999999;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.auto-close-timer button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#auto-close-popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 999999;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    min-width: 250px;
+}
+
+#auto-close-popup .countdown {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+#auto-close-popup button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#auto-close-popup #closeNow {
+    background: #dc3545;
+    color: white;
+}
+
+#auto-close-popup #cancelClose {
+    background: #6c757d;
+    color: white;
+}
