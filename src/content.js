@@ -65,11 +65,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 function showCountdown(seconds) {
-    if (!countdownElement) {
-        countdownElement = document.createElement('div');
-        countdownElement.className = 'auto-tab-close-countdown';
-        document.body.appendChild(countdownElement);
-    }
     updateCountdown(seconds);
 }
 

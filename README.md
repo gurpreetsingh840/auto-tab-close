@@ -38,7 +38,43 @@ Common URL patterns you might want to add:
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+We welcome contributions! Here's how you can help:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Create a Pull Request to the `main` branch with:
+   - Clear description of the changes
+   - Reference to related issue(s) if applicable
+   - Screenshots/GIFs for UI changes
+   - Steps to test the changes
+
+### Pull Request Guidelines
+- PRs should target the `main` branch
+- Include the issue number in PR title (e.g., "[#123] Add new feature")
+- Add screenshots or GIFs for visual changes
+- Describe what problem your PR solves
+- List testing steps you've performed
+
+### Example PR Format
+```
+Fixes #123
+
+## Description
+Added auto-close timing configuration feature
+
+## Screenshots
+[Add screenshots/GIFs here]
+
+## Testing Steps
+1. Open extension options
+2. Configure timing for a URL
+3. Verify tab closes after specified time
+```
+
+## Privacy Policy
+
+Read our [Privacy Policy](privacy_policy.md) to understand how we handle your data. We take your privacy seriously and do not collect or store any personal information.
 
 ## License
 
