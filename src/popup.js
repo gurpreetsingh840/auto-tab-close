@@ -1,9 +1,9 @@
 const defaultRules = [
-    { pattern: "zoom.us/j/", seconds: 300, enabled: true },
-    { pattern: "teams.microsoft.com/meet", seconds: 300, enabled: true },
-    { pattern: "vpn.", seconds: 300, enabled: true },
-    { pattern: "webex.com/meet/", seconds: 300, enabled: true },
-    { pattern: "gotomeeting.com/join/", seconds: 300, enabled: true }
+    { pattern: "zoom.us/j/", seconds: 5, enabled: true },
+    { pattern: "teams.microsoft.com/meet", seconds: 5, enabled: true },
+    { pattern: "vpn.", seconds: 5, enabled: true },
+    { pattern: "webex.com/meet/", seconds: 5, enabled: true },
+    { pattern: "gotomeeting.com/join/", seconds: 5, enabled: true }
 ];
 
 let rules = [];
@@ -49,8 +49,8 @@ function renderRules() {
                 ${rule.error ? `<div class="error-message">${rule.error}</div>` : ''}
             </div>
             <div class="form-group">
-                <label>Inactivity Time (minutes)</label>
-                <input type="number" value="${rule.seconds / 60}" min="1" data-index="${index}" class="seconds">
+                <label>Close After (seconds)</label>
+                <input type="number" value="${rule.seconds}" min="1" data-index="${index}" class="seconds">
             </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="enabled-${index}" ${rule.enabled ? 'checked' : ''} data-index="${index}" class="enabled">
@@ -74,7 +74,7 @@ async function saveRules() {
     let hasErrors = false;
     const newRules = patterns.map((p, i) => {
         const pattern = p.value;
-        const secondsValue = Math.floor(parseFloat(seconds[i].value) * 60);
+        const secondsValue = Math.floor(parseFloat(seconds[i].value));
         const error = validateRule(pattern, secondsValue);
         if (error) {
             hasErrors = true;

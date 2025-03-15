@@ -1,6 +1,7 @@
 let countdownInterval;
 let timerStarted = false;
 let currentTabId = null;
+let countdownElement = null;
 
 // Get current tab ID when script loads
 chrome.runtime.sendMessage({ action: 'getTabId' }, (tabId) => {
@@ -56,3 +57,24 @@ chrome.runtime.onMessage.addListener((message) => {
         createPopup(message.seconds);
     }
 });
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'startCountdown') {
+        showCountdown(message.seconds);
+    }
+});
+
+function showCountdown(seconds) {
+    if (!countdownElement) {
+        countdownElement = document.createElement('div');
+        countdownElement.className = 'auto-tab-close-countdown';
+        document.body.appendChild(countdownElement);
+    }
+    updateCountdown(seconds);
+}
+
+function updateCountdown(seconds) {
+    if (countdownElement) {
+        countdownElement.textContent = `Tab will close in ${seconds} seconds`;
+    }
+}

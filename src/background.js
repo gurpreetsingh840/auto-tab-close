@@ -34,35 +34,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 function startTimer(tabId, seconds) {
     if (activeTimers.has(tabId)) return;
 
-    chrome.tabs.sendMessage(tabId, {
-        action: 'startCountdown',
-        seconds: seconds
-    }).catch(async (err) => {
-        try {
-            // Only check tab existence when we need to retry injection
-            const tab = await chrome.tabs.get(tabId);
-            if (!tab) throw new Error('Tab not found');
-
-            console.log('Retrying content script injection...');
-            await chrome.scripting.executeScript({
-                target: { tabId: tabId },
-                files: ['content.js']
-            });
-            await chrome.scripting.insertCSS({
-                target: { tabId: tabId },
-                files: ['content.css']
-            });
-            await chrome.tabs.sendMessage(tabId, {
-                action: 'startCountdown',
-                seconds: seconds
-            });
-        } catch (e) {
-            console.log('Tab no longer exists, cleaning up timer:', tabId);
-            activeTimers.delete(tabId);
-            return;
-        }
-    });
-
+    // Set timer first
     const timer = setTimeout(() => {
         chrome.tabs.remove(tabId).catch(() => {
             // Tab already gone, just cleanup
@@ -72,6 +44,40 @@ function startTimer(tabId, seconds) {
     }, seconds * 1000);
 
     activeTimers.set(tabId, timer);
+
+    // Then try to show the countdown UI
+    chrome.tabs.sendMessage(tabId, {
+        action: 'startCountdown',
+        seconds: seconds
+    }).catch(async (err) => {
+        try {
+            // Verify tab still exists and we have necessary permissions
+            const [tab] = await Promise.all([
+                chrome.tabs.get(tabId),
+                chrome.permissions.contains({ permissions: ['scripting'] })
+            ]);
+
+            if (!tab) throw new Error('Tab not found');
+
+            console.log('Retrying content script injection...');
+            await chrome.scripting.executeScript({
+                target: { tabId: tabId },
+                files: ['src/content.js']
+            });
+            await chrome.scripting.insertCSS({
+                target: { tabId: tabId },
+                files: ['src/content.css']
+            });
+            // Retry sending the message
+            await chrome.tabs.sendMessage(tabId, {
+                action: 'startCountdown',
+                seconds: seconds
+            });
+        } catch (e) {
+            console.log('Failed to inject content script:', e);
+            // Don't return here, let the timer continue
+        }
+    });
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
