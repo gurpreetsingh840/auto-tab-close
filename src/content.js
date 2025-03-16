@@ -1,3 +1,4 @@
+// Track the state of the countdown
 let countdownInterval;
 let timerStarted = false;
 let currentTabId = null;
@@ -8,6 +9,10 @@ chrome.runtime.sendMessage({ action: 'getTabId' }, (tabId) => {
     currentTabId = tabId;
 });
 
+/**
+ * Creates and displays countdown popup with close controls
+ * @param {number} seconds - Seconds until auto-close
+ */
 function createPopup(seconds) {
     const popup = document.createElement('div');
     popup.id = 'auto-close-popup';
@@ -64,10 +69,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
+/**
+ * Displays countdown UI without creating new elements
+ * @param {number} seconds - Seconds remaining
+ */
 function showCountdown(seconds) {
     updateCountdown(seconds);
 }
 
+/**
+ * Updates the countdown display
+ * @param {number} seconds - Seconds remaining
+ */
 function updateCountdown(seconds) {
     if (countdownElement) {
         countdownElement.textContent = `Tab will close in ${seconds} seconds`;

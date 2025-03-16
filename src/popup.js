@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
+/**
+ * Validates a rule's pattern and seconds
+ * @param {string} pattern - URL pattern to match
+ * @param {number} seconds - Inactivity time before closing
+ * @returns {string|null} Error message or null if valid
+ */
 function validateRule(pattern, seconds) {
     if (!pattern.trim()) {
         return "Domain pattern cannot be empty";
@@ -35,6 +41,9 @@ function validateRule(pattern, seconds) {
     return null;
 }
 
+/**
+ * Renders the list of rules in the popup
+ */
 function renderRules() {
     const container = document.getElementById('rules');
     container.innerHTML = rules.map((rule, index) => `
@@ -60,11 +69,17 @@ function renderRules() {
     `).join('');
 }
 
+/**
+ * Adds a new empty rule to the list
+ */
 function addNewRule() {
     rules.push({ pattern: "", seconds: 300, enabled: true });
     renderRules();
 }
 
+/**
+ * Saves rules to chrome storage after validation
+ */
 async function saveRules() {
     const patterns = [...document.getElementsByClassName('pattern')];
     const seconds = [...document.getElementsByClassName('seconds')];

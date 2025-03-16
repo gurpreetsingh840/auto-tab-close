@@ -21,6 +21,20 @@ A Chrome extension that automatically closes tabs based on URL patterns. Perfect
 3. Enable "Developer mode"
 4. Click "Load unpacked" and select the extension directory
 
+## Screenshots
+
+### Default Extension View
+![Default Extension View](images/default_view.png)
+*Main extension interface showing URL pattern management and configuration options*
+
+### Adding New Rules
+![Adding New Rules](images/add_new_rule.png)
+*Interface for adding new URL patterns with validation feedback*
+
+### Tab Close Confirmation
+![Close Confirmation](images/close_popup_on_tabs.png)
+*Timer popup with close now and cancel options when a matching tab is detected*
+
 ## Usage
 
 1. Click the extension icon in your browser toolbar

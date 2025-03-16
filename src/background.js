@@ -1,3 +1,4 @@
+// Track active timers and rules
 let activeTimers = new Map();
 let rules = [];
 
@@ -31,13 +32,18 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     }
 });
 
+/**
+ * Starts a countdown timer for a tab
+ * @param {number} tabId - ID of tab to close
+ * @param {number} seconds - Seconds until close
+ */
 function startTimer(tabId, seconds) {
     if (activeTimers.has(tabId)) return;
 
-    // Set timer first
+    // Create close timer
     const timer = setTimeout(() => {
         chrome.tabs.remove(tabId).catch(() => {
-            // Tab already gone, just cleanup
+            // Tab already gone, cleanup
         }).finally(() => {
             activeTimers.delete(tabId);
         });
@@ -45,13 +51,13 @@ function startTimer(tabId, seconds) {
 
     activeTimers.set(tabId, timer);
 
-    // Then try to show the countdown UI
+    // Initialize countdown UI
     chrome.tabs.sendMessage(tabId, {
         action: 'startCountdown',
         seconds: seconds
     }).catch(async (err) => {
         try {
-            // Verify tab still exists and we have necessary permissions
+            // Retry content script injection if failed
             const [tab] = await Promise.all([
                 chrome.tabs.get(tabId),
                 chrome.permissions.contains({ permissions: ['scripting'] })
@@ -59,7 +65,7 @@ function startTimer(tabId, seconds) {
 
             if (!tab) throw new Error('Tab not found');
 
-            console.log('Retrying content script injection...');
+            // Inject required scripts and retry
             await chrome.scripting.executeScript({
                 target: { tabId: tabId },
                 files: ['src/content.js']
@@ -68,14 +74,12 @@ function startTimer(tabId, seconds) {
                 target: { tabId: tabId },
                 files: ['src/content.css']
             });
-            // Retry sending the message
             await chrome.tabs.sendMessage(tabId, {
                 action: 'startCountdown',
                 seconds: seconds
             });
         } catch (e) {
             console.log('Failed to inject content script:', e);
-            // Don't return here, let the timer continue
         }
     });
 }
