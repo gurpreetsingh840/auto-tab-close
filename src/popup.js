@@ -1,9 +1,8 @@
 const defaultRules = [
-    { pattern: "zoom.us/j/", seconds: 5, enabled: true },
-    { pattern: "teams.microsoft.com/meet", seconds: 5, enabled: true },
-    { pattern: "vpn.", seconds: 5, enabled: true },
-    { pattern: "webex.com/meet/", seconds: 5, enabled: true },
-    { pattern: "gotomeeting.com/join/", seconds: 5, enabled: true }
+    { pattern: "zoom.us/j/", seconds: 10, enabled: true },
+    { pattern: "teams.microsoft.com/meet", seconds: 10, enabled: true },
+    { pattern: "webex.com/meet/", seconds: 10, enabled: true },
+    { pattern: "gotomeeting.com/join/", seconds: 10, enabled: true }
 ];
 
 let rules = [];
