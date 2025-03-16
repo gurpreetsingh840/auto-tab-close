@@ -45,27 +45,26 @@ function validateRule(pattern, seconds) {
  * Renders the list of rules in the popup
  */
 function renderRules() {
-    const container = document.getElementById('rules');
+    const container = document.getElementById('rulesBody');
     container.innerHTML = rules.map((rule, index) => `
-        <div class="rule">
-            <div class="form-group">
-                <label>Domain Pattern</label>
+        <tr>
+            <td>
                 <input type="text" value="${rule.pattern}" 
                     placeholder="e.g., *.example.com" 
                     data-index="${index}" 
                     class="pattern${rule.error ? ' error' : ''}">
-                ${rule.error ? `<div class="error-message">${rule.error}</div>` : ''}
-            </div>
-            <div class="form-group">
-                <label>Close After (seconds)</label>
+                ${rule.error ? `<span class="error-message">${rule.error}</span>` : ''}
+            </td>
+            <td>
                 <input type="number" value="${rule.seconds}" min="1" data-index="${index}" class="seconds">
-            </div>
-            <div class="checkbox-group">
+            </td>
+            <td>
                 <input type="checkbox" id="enabled-${index}" ${rule.enabled ? 'checked' : ''} data-index="${index}" class="enabled">
-                <label for="enabled-${index}">Enable auto-close for this rule</label>
-            </div>
-            <button class="delete-btn" data-index="${index}">Delete Rule</button>
-        </div>
+            </td>
+            <td>
+                <button class="delete-btn" data-index="${index}">Delete</button>
+            </td>
+        </tr>
     `).join('');
 }
 
@@ -73,7 +72,7 @@ function renderRules() {
  * Adds a new empty rule to the list
  */
 function addNewRule() {
-    rules.push({ pattern: "", seconds: 300, enabled: true });
+    rules.push({ pattern: "", seconds: 10, enabled: true });
     renderRules();
 }
 
