@@ -68,11 +68,11 @@ function startTimer(tabId, seconds) {
             // Inject required scripts and retry
             await chrome.scripting.executeScript({
                 target: { tabId: tabId },
-                files: ['src/content.js']
+                files: ['content.js']
             });
             await chrome.scripting.insertCSS({
                 target: { tabId: tabId },
-                files: ['src/content.css']
+                files: ['content.css']
             });
             await chrome.tabs.sendMessage(tabId, {
                 action: 'startCountdown',

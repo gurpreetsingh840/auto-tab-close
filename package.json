@@ -1,0 +1,12 @@
+{
+    "name": "auto-tab-close",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "node build.js"
+    },
+    "devDependencies": {
+        "terser": "^5.19.2",
+        "adm-zip": "^0.5.10",
+        "fs-extra": "^11.1.1"
+    }
+}
