@@ -37,7 +37,7 @@ async function build() {
     zip.addLocalFolder('./dist');
     zip.writeZip('./auto-tab-close.zip');
 
-    console.log('Build complete! Check extension.zip');
+    console.log('Build complete! Check auto-tab-close.zip');
 }
 
 build().catch(console.error);
