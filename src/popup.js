@@ -1,3 +1,4 @@
+// Default rules definition
 const defaultRules = [
     { pattern: "zoom.us/j/", seconds: 10, enabled: true },
     { pattern: "teams.microsoft.com/meet", seconds: 10, enabled: true },
@@ -8,9 +9,16 @@ const defaultRules = [
 let rules = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const stored = await chrome.storage.sync.get('rules');
-    rules = stored.rules || defaultRules;
-    renderRules();
+    try {
+        const stored = await chrome.storage.sync.get('rules');
+        rules = stored.rules || defaultRules;
+        console.log('Loaded rules:', rules); // Debug log
+        renderRules();
+    } catch (error) {
+        console.error('Failed to load rules:', error);
+        document.getElementById('rulesBody').innerHTML =
+            '<tr><td colspan="4">Error loading rules. Please refresh.</td></tr>';
+    }
 
     document.getElementById('addRule').addEventListener('click', addNewRule);
     document.getElementById('saveRules').addEventListener('click', saveRules);

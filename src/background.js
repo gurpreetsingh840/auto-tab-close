@@ -1,11 +1,18 @@
+// Default rules definition
+const defaultRules = [
+    { pattern: "zoom.us/j/", seconds: 10, enabled: true },
+    { pattern: "teams.microsoft.com/meet", seconds: 10, enabled: true },
+    { pattern: "webex.com/meet/", seconds: 10, enabled: true },
+    { pattern: "gotomeeting.com/join/", seconds: 10, enabled: true }
+];
+
 // Track active timers and rules
 let activeTimers = new Map();
 let rules = [];
 
 // Load rules when extension starts
 chrome.storage.sync.get('rules', (data) => {
-    rules = data.rules || [];
-    console.log('Loaded rules:', rules);
+    rules = data.rules || defaultRules;
 });
 
 // Listen for rule updates
@@ -19,6 +26,10 @@ chrome.storage.onChanged.addListener((changes) => {
 // Monitor tab updates with protocol handler detection
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && tab.url) {
+        if (!rules || rules.length === 0) {
+            // Load default rules if none exist
+            rules = defaultRules;
+        }
         for (const rule of rules) {
             if (!rule.enabled) continue;
 
